@@ -3,7 +3,6 @@
   "configurePresets": [
     {
       "name": "vcpkg",
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/cmake-build-${presetName}",
       "hidden": true,
       "cacheVariables": {
