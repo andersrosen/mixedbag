@@ -17,9 +17,15 @@
         "VCPKG_ROOT": "$env{GITHUB_WORKSPACE}/vcpkg"
       },
       "cacheVariables": {
-        "MIXEDBAG_ENABLE_DOCS": "ON",
         "MIXEDBAG_ENABLE_INSTALL": "ON",
         "CMAKE_INSTALL_PREFIX": "$env{GITHUB_WORKSPACE}/install-root"
+      }
+    },
+    {
+      "name": "ci-pr",
+      "inherits": "ci",
+      "cacheVariables": {
+        "MIXEDBAG_ENABLE_DOCS": "ON"
       }
     }
   ]
