@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - name: Install doxygen
-        run: sudo apt-get update && sudo apt-get install -yq doxygen graphviz
+      - name: Install packages needed for building
+        run: sudo apt-get update && sudo apt-get install -yq doxygen graphviz ninja-build
 
       - name: Checkout vcpkg
         uses: actions/checkout@v4
