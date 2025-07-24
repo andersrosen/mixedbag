@@ -13,10 +13,8 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - name: Useful info
-        run: echo "\$GITHUB_WORKSPACE = $GITHUB_WORKSPACE"; echo "CWD is" `/bin/pwd`
-
-      - name: Install packages needed for building
+      - name: Install doxygen
+        if: ${{ github.event_name == 'push' }}
         run: sudo apt-get update && sudo apt-get install -yq doxygen graphviz
 
       - name: Checkout vcpkg
@@ -33,8 +31,13 @@ jobs:
         with:
           path: src
 
-      - name: Configure CMake
+      - name: Configure CMake with docs generation
+        if: ${{ github.event_name == 'push' }}
         run: cmake -B build -S src --preset ci
+
+      - name: Configure CMake without docs generation
+        if: ${{ github.event_name != 'push' }}
+        run: cmake -B build -S src --preset ci-pr
 
       - name: Build
         run: cmake --build build
