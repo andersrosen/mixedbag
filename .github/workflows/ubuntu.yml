@@ -34,7 +34,7 @@ jobs:
           path: src
 
       - name: Configure CMake
-        run: cmake --version; cmake --help; cmake -B build -S src --preset ci
+        run: cmake -B build -S src --preset ci
 
       - name: Build
         run: cmake --build build
@@ -52,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: docs
-          path: install/share/doc/mixedbag/html/*
+          path: install-root/share/doc/mixedbag/html/*
 
   update-docs:
     name: Update docs
