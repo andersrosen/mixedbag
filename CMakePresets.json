@@ -14,7 +14,7 @@
       "name": "ci",
       "inherits": "vcpkg",
       "environment": {
-        "VCPKG_ROOT": "$env{GITHUB_WORKSPACE}/vcpkg-root"
+        "VCPKG_ROOT": "$env{GITHUB_WORKSPACE}/vcpkg"
       },
       "cacheVariables": {
         "MIXEDBAG_ENABLE_DOCS": "ON",

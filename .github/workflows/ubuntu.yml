@@ -17,7 +17,7 @@ jobs:
         run: echo "\$GITHUB_WORKSPACE = $GITHUB_WORKSPACE"; echo "CWD is" `/bin/pwd`
 
       - name: Install packages needed for building
-        run: sudo apt-get update && sudo apt-get install -yq doxygen graphviz ninja-build
+        run: sudo apt-get update && sudo apt-get install -yq doxygen graphviz
 
       - name: Checkout vcpkg
         uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
           path: vcpkg
 
       - name: Bootstrap vcpkg
-        run: ls vcpkg/bootstrap-vcpkg.sh
+        run: /bin/sh vcpkg/bootstrap-vcpkg.sh
 
       - name: Checkout
         uses: actions/checkout@v4
