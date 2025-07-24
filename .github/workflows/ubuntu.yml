@@ -14,7 +14,6 @@ jobs:
 
     steps:
       - name: Install doxygen
-        if: ${{ github.event_name == 'push' }}
         run: sudo apt-get update && sudo apt-get install -yq doxygen graphviz
 
       - name: Checkout vcpkg
@@ -31,13 +30,8 @@ jobs:
         with:
           path: src
 
-      - name: Configure CMake with docs generation enabled
-        if: ${{ github.event_name == 'push' }}
-        run: cmake -B build -S src -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install -DMIXEDBAG_ENABLE_DOCS=ON
-
-      - name: Configure CMake without docs generation enabled
-        if: ${{ github.event_name != 'push' }}
-        run: cmake -B build -S src --preset vcpkg -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/install -DMIXEDBAG_ENABLE_DOCS=OFF
+      - name: Configure CMake
+        run: cmake -B build -S --preset ci
 
       - name: Build
         run: cmake --build build

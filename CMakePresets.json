@@ -9,6 +9,17 @@
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
       }
+    },
+    {
+      "name": "ci",
+      "inherits": "vcpkg",
+      "environment": {
+        "VCPKG_ROOT": "$GITHUB_WORKSPACE/vcpkg-root"
+      },
+      "cacheVariables": {
+        "MIXEDBAG_ENABLE_DOCS": "ON",
+        "MIXEDBAG_ENABLE_INSTALL": "ON"
+      }
     }
   ]
 }
