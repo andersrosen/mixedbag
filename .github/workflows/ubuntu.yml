@@ -24,7 +24,7 @@ jobs:
           path: vcpkg
 
       - name: Bootstrap vcpkg
-        run: find .;  vcpkg/vcpkg-bootstrap.sh
+        run: ls .;  vcpkg/vcpkg-bootstrap.sh
 
       - name: Checkout
         uses: actions/checkout@v4
