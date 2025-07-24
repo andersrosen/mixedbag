@@ -3,11 +3,29 @@
   "configurePresets": [
     {
       "name": "vcpkg",
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/cmake-build-${presetName}",
       "hidden": true,
+      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      }
+    },
+    {
+      "name": "ci",
+      "inherits": "vcpkg",
+      "environment": {
+        "VCPKG_ROOT": "$env{GITHUB_WORKSPACE}/vcpkg"
+      },
+      "cacheVariables": {
+        "MIXEDBAG_ENABLE_INSTALL": "ON",
+        "CMAKE_INSTALL_PREFIX": "$env{GITHUB_WORKSPACE}/install-root"
+      }
+    },
+    {
+      "name": "ci-pr",
+      "inherits": "ci",
+      "cacheVariables": {
+        "MIXEDBAG_ENABLE_DOCS": "ON"
       }
     }
   ]

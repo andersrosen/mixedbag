@@ -1,0 +1,93 @@
+name: Ubuntu
+
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Install doxygen
+        if: ${{ github.event_name == 'push' }}
+        run: sudo apt-get update && sudo apt-get install -yq doxygen graphviz
+
+      - name: Checkout vcpkg
+        uses: actions/checkout@v4
+        with:
+          repository: microsoft/vcpkg
+          path: vcpkg
+
+      - name: Bootstrap vcpkg
+        run: /bin/sh vcpkg/bootstrap-vcpkg.sh
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: src
+
+      - name: Configure CMake with docs generation
+        if: ${{ github.event_name == 'push' }}
+        run: cmake -B build -S src --preset ci
+
+      - name: Configure CMake without docs generation
+        if: ${{ github.event_name != 'push' }}
+        run: cmake -B build -S src --preset ci-pr
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: |
+          cd build
+          ctest --output-on-failure
+
+      - name: Install
+        run: cmake --build build --target install
+
+      - name: Upload docs artifact
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: install-root/share/doc/mixedbag/html/*
+
+  update-docs:
+    name: Update docs
+    if: ${{ github.event_name == 'push' }}
+    needs: build-and-test
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Remove existing docs
+        run: rm -rf gh-pages/docs/main
+
+      - name: Download docs artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docs
+          path: gh-pages/docs/main/
+
+      - name: Commit and push any changes
+        run: |
+          cd gh-pages
+          git ls-files --others --modified -z > ../modified_files.list
+          if [ -s ../modified_files.list ]; then xargs -0 -t git add < ../modified_files.list; fi
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --local user.name "Github Ubuntu action"
+            git config --local user.email "noone@example.com"
+            git commit -m "Update API docs"
+            git push
+          else
+            echo "There were no changes. No need to commit"
+          fi
