@@ -41,3 +41,8 @@ your own targets to:
 
     target_link_libraries(my-program PUBLIC mixedbag::mixedbag)
 
+## Classes
+
+[sparse_vector](#ARo.sparse_vector) - A vector-backed key-value container for fast unordered iteration of the values
+
+[bookkeeping_memory_resource.hxx](#ARo.bookkeeping_memory_resource) - A memory resource that's intended for use in test code

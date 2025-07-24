@@ -1,0 +1,17 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/mixedbag-targets.cmake")
+check_required_components(mixedbag)
+
+set(_supported_components sqlite3)
+
+# Include the targets for the components that were requested
+foreach(_comp ${mixedbag_FIND_COMPONENTS})
+    if (NOT _comp IN_LIST _supported_components)
+        set(mixedbag_FOUND False)
+        set(mixedbag_NOT_FOUND_MESSAGE "Unsupported component: ${_comp}")
+    endif()
+
+    # Allow the components to specify dependencies in their own -config.cmake files
+    include("${CMAKE_CURRENT_LIST_DIR}/mixedbag-${_comp}-config.cmake")
+endforeach()
