@@ -20,7 +20,7 @@ jobs:
       - name: Checkout vcpkg
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/Microsoft/vcpkg
+          repository: microsoft/vcpkg
           path: vcpkg
 
       - name: Bootstrap vcpkg
