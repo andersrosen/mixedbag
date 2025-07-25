@@ -62,6 +62,8 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     needs: build-and-test
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
