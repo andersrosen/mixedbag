@@ -41,3 +41,6 @@ your own targets to:
 
     target_link_libraries(my-program PUBLIC mixedbag::mixedbag)
 
+## Documentation
+
+The reference documentation is available here: [https://andersrosen.github.io/mixedbag/main](https://andersrosen.github.io/mixedbag/main)
