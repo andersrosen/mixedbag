@@ -124,7 +124,7 @@ namespace ARo {
         /** Returns the number of elements */
         [[nodiscard]] size_type size() const noexcept
         {
-            return data_.size();
+            return static_cast<size_type>(data_.size());
         }
 
         /** Check for emptiness */
@@ -249,7 +249,7 @@ namespace ARo {
                     throw std::runtime_error("sparse_vector: insert - element already exists at specified index");
             }
 
-            pos_[index] = data_.size();
+            pos_[index] = static_cast<size_type>(data_.size());
         }
 
         void check_access(size_type index) const
